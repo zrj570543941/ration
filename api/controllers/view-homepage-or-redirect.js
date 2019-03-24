@@ -1,35 +1,33 @@
 module.exports = {
 
-
+  // the name of the controller, 大写开头表示是用来serve pages的
   friendlyName: 'View homepage or redirect',
 
 
-  description: 'Display or redirect to the appropriate homepage, depending on login status.',
+  description: '',
 
 
+  // 定义当前controller可能会跳到哪些路由下，具体怎么跳由下面的fn控制
   exits: {
-
     success: {
       statusCode: 200,
-      description: 'Requesting user is a guest, so show the public landing page.',
+      description: '',
       viewTemplatePath: 'pages/homepage'
     },
-
     redirect: {
       responseType: 'redirect',
-      description: 'Requesting user is logged in, so redirect to the internal welcome page.'
+      description: ''
     },
-
   },
 
-
-  fn: async function () {
+  // 处理controller具体逻辑的地方
+  fn: async function (inputs, exits) {
 
     if (this.req.me) {
       throw {redirect:'/welcome'};
     }
 
-    return {};
+    return exits.success();
 
   }
 
